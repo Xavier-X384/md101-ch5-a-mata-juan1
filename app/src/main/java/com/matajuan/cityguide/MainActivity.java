@@ -1,0 +1,112 @@
+package com.matajuan.cityguide;
+
+import android.content.Intent;
+import android.net.Uri;
+import android.os.Bundle;
+
+import androidx.activity.EdgeToEdge;
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.graphics.Insets;
+import androidx.core.view.ViewCompat;
+import androidx.core.view.WindowInsetsCompat;
+import androidx.recyclerview.widget.DividerItemDecoration;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
+public class MainActivity extends AppCompatActivity {
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        ActionBar actionBar = getSupportActionBar();
+        if(actionBar != null){
+            actionBar.setDisplayShowHomeEnabled(true);
+            actionBar.setLogo(R.mipmap.ic_launcher);
+            actionBar.setDisplayUseLogoEnabled(true);
+        }
+        EdgeToEdge.enable(this);
+        setContentView(R.layout.activity_main);
+        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
+            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
+            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
+            return insets;
+        });
+        String[] attractions = new String[]{
+                "Art Institute of Chicago",
+                "Magnificent Mile",
+                "Willis Tower",
+                "Chicago Bean",
+                "Water Tower"
+        };
+        RecyclerView recyclerView = findViewById(R.id.recyclerView);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        recyclerView.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));
+        recyclerView.setAdapter(new AttractionAdapter(attractions, position -> {
+            switch(position){
+            case 0:
+                startActivity(new Intent(
+                        Intent.ACTION_VIEW,
+                        Uri.parse("http://artic.edu")
+                ));
+                break;
+            case 1:
+                startActivity(new Intent(
+                        Intent.ACTION_VIEW,
+                        Uri.parse("http://themagnificentmile.com")
+                ));
+                break;
+            case 2:
+                startActivity(new Intent(
+                        MainActivity.this,
+                        Willis.class
+                ));
+                break;
+            case 3:
+                startActivity(new Intent(
+                        MainActivity.this,
+                        ChicagoBean.class
+                ));
+                break;
+            case 4:
+                startActivity(new Intent(
+                        MainActivity.this,
+                        WaterTower.class
+                ));
+                break;
+        }
+        }));
+
+//        switch(i){
+//            case 0:
+//                startActivity(new Intent(
+//                        Intent.ACTION_VIEW,
+//                        Uri.parse("http://artic.edu")
+//                ));
+//                break;
+//            case 1:
+//                startActivity(new Intent(
+//                        Intent.ACTION_VIEW,
+//                        Uri.parse("http://themagnificentmile.com")
+//                ));
+//                break;
+//            case 2:
+//                startActivity(new Intent(
+//                        MainActivity.this,
+//                        WillisTowerActivity.class
+//                ));
+//                break;
+//            case 3:
+//                startActivity(new Intent(
+//                        MainActivity.this,
+//                        ChicagoBeanActivity.class
+//                ));
+//                break;
+//            case 4:
+//                startActivity(new Intent(
+//                        MainActivity.this,
+//                        WaterTower.class
+//                ));
+//                break;
+//        }
+    }
+}
